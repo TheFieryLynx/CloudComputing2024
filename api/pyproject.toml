@@ -4,8 +4,12 @@ version = "1.0.0"
 description = "Api for first task of Cloud Computing 2024 course"
 authors = ["Andrew Biryukov <biryukov.andrej2000@ispras.ru>"]
 readme = "README.md"
+packages = [{include = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
 fastapi = "^0.110.0"
 uvicorn = "^0.28.0"
+mysql-connector-python = "^8.3.0"
+python-dotenv = "^1.0.1"
+

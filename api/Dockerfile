@@ -9,10 +9,10 @@ COPY ./poetry.lock ./poetry.lock
 COPY ./pyproject.toml ./pyproject.toml
 COPY ./README.md ./README.md
 
+COPY ./src ./src
+
 RUN . .venv/bin/activate && poetry install
 
 COPY ./docker-entrypoint.sh ./docker-entrypoint.sh
-
-COPY ./src ./src
 
 CMD ["./docker-entrypoint.sh"]

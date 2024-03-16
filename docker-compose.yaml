@@ -1,4 +1,10 @@
 version: "3.9"
+
+x-common-variables: &common-variables
+  MYSQL_USER: cloud
+  MYSQL_PASSWORD: password
+  MYSQL_DATABASE: cloud_computing
+
 services:
   api:
     build:
@@ -6,6 +12,9 @@ services:
       network: host
     ports:
       - "20243:8000"
+    environment:
+      <<: *common-variables
+      MYSQL_HOST: mysql
     depends_on:
       mysql:
         condition: service_healthy
@@ -16,8 +25,11 @@ services:
       network: host
     volumes:
       - mysql_v:/var/lib/mysql
-    env_file:
-      - ./mysql/mysql.env
+    environment:
+      <<: *common-variables
+      MYSQL_ROOT_PASSWORD: very_strong_root_password
+    ports:
+      - "3306:3306"
     healthcheck:
       test: ["CMD", 'mysqladmin', 'ping', '-h', 'localhost', '-u', 'root', '-p$$MYSQL_ROOT_PASSWORD' ]
       timeout: 2s
