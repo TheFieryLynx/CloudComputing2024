@@ -10,6 +10,9 @@ compose/build: local/api/.venv
 compose/down:
 	docker compose down
 
+compose/down/full:
+	docker compose down -v
+
 local/api/.venv: ./api/pyproject.toml
 	$(python_bin) -m venv ./api/.venv
 	cd api && $(enter_venv) && poetry install
