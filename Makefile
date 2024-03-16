@@ -4,8 +4,14 @@ enter_venv := . .venv/bin/activate
 compose/up: compose/build
 	docker compose up
 
+compose/up/d: compose/build
+	docker compose up -d
+
 compose/build: local/api/.venv
 	docker compose build
+
+compose/stop:
+	docker compose stop
 
 compose/down:
 	docker compose down
