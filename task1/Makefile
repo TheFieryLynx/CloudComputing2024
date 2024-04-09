@@ -1,4 +1,4 @@
-python_bin := python3.11
+python_bin := python3
 enter_venv := . .venv/bin/activate
 
 compose/up: compose/build
@@ -7,7 +7,7 @@ compose/up: compose/build
 compose/up/d: compose/build
 	docker compose up -d
 
-compose/build: local/api/.venv
+compose/build:
 	docker compose build
 
 compose/stop:
