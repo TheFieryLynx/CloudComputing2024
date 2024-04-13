@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: mysql
+  name: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        network/task2-default: "true"
+        service: mysql
+    spec:
+      containers:
+        - env:
+            - name: MYSQL_DATABASE
+              value: cloud_computing
+            - name: MYSQL_PASSWORD
+              value: password
+            - name: MYSQL_ROOT_PASSWORD
+              value: very_strong_root_password
+            - name: MYSQL_USER
+              value: cloud
+          image: thefierylynx/cloudcomputing2024-task1-mysql
+          livenessProbe:
+            exec:
+              command:
+                - mysqladmin
+                - ping
+                - -h
+                - localhost
+                - -u
+                - root
+                - -p$MYSQL_ROOT_PASSWORD
+            failureThreshold: 10
+            periodSeconds: 2
+            timeoutSeconds: 2
+          name: mysql
+          ports:
+            - containerPort: 3306
+              hostPort: 3306
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: mysql-v
+      restartPolicy: Always
+      volumes:
+        - name: mysql-v
+          persistentVolumeClaim:
+            claimName: mysql-v

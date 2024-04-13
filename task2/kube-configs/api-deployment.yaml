@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: api
+  name: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: api
+  template:
+    metadata:
+      labels:
+        network/task2-default: "true"
+        service: api
+    spec:
+      containers:
+        - env:
+            - name: MYSQL_DATABASE
+              value: cloud_computing
+            - name: MYSQL_HOST
+              value: mysql
+            - name: MYSQL_PASSWORD
+              value: password
+            - name: MYSQL_USER
+              value: cloud
+          image: thefierylynx/cloudcomputing2024-task1-api
+          name: api
+          ports:
+            - containerPort: 8000
+              hostPort: 20243
+              protocol: TCP
+      restartPolicy: Always
